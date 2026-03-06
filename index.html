@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Birthday Ananya 💖</title> 
+<title>Happy Birthday Ananya 💖</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Poppins:wght@300;400;600;700&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
@@ -11,28 +11,44 @@
 html,body{height:100%;overflow:hidden}
 body{background:var(--bg);font-family:'Poppins',sans-serif;color:#fff;cursor:default}
 
-/* ── LAYERS ── */
 #stars,#petals-layer,#fw{position:fixed;inset:0;pointer-events:none;z-index:0}
 #fw{z-index:2}
 #petals-layer{z-index:1}
 
-/* STARS */
 .star{position:absolute;border-radius:50%;background:#fff;animation:tw var(--d) ease-in-out infinite alternate}
 @keyframes tw{from{opacity:.05}to{opacity:.95}}
 
-/* PETALS */
 .petal{position:absolute;top:-30px;font-size:1.1rem;animation:pfall var(--pd) linear infinite;animation-delay:var(--delay);opacity:.8}
 @keyframes pfall{0%{transform:translateY(0) rotate(0deg) translateX(0);opacity:.8}50%{transform:translateY(50vh) rotate(200deg) translateX(25px)}100%{transform:translateY(105vh) rotate(400deg) translateX(-15px);opacity:0}}
 
-/* ══════════════════════════
-   COVER SCREEN
-══════════════════════════ */
-#cover{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 45%,#1e0035 0%,#08000f 100%);transition:clip-path 1.2s cubic-bezier(.77,0,.18,1),opacity .8s;cursor:pointer}
+/* ── HEART RAIN (over card only) ── */
+.heart-drop{
+  position:absolute;
+  top:-40px;
+  font-size:1.3rem;
+  animation:heartFall var(--hd) linear var(--hdelay) forwards;
+  opacity:0;
+  filter:drop-shadow(0 0 5px #ec489988);
+  pointer-events:none;
+  z-index:20;
+}
+@keyframes heartFall{
+  0%  {transform:translateY(0) rotate(var(--rot));opacity:0}
+  8%  {opacity:1}
+  88% {opacity:.8}
+  100%{transform:translateY(600px) rotate(calc(var(--rot) + 40deg));opacity:0}
+}
+#card-wrapper{position:relative}
+
+/* ── COVER ── */
+#cover{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 45%,#1e0035 0%,#08000f 100%);transition:clip-path 1.4s cubic-bezier(.77,0,.18,1),opacity .9s;cursor:pointer}
 #cover.hide{clip-path:circle(0% at 50% 50%);opacity:0;pointer-events:none}
 
 .env-wrap{position:relative;display:flex;align-items:center;justify-content:center}
-.env{font-size:7rem;animation:envF 2.6s ease-in-out infinite;filter:drop-shadow(0 0 40px #ec4899)}
+.env{font-size:7rem;animation:envF 2.6s ease-in-out infinite;filter:drop-shadow(0 0 40px #ec4899);transition:transform .3s,filter .3s}
+.env:hover{filter:drop-shadow(0 0 60px #ec4899) drop-shadow(0 0 30px #f9a8d4);transform:scale(1.08)}
 @keyframes envF{0%,100%{transform:translateY(0) rotate(-3deg) scale(1)}50%{transform:translateY(-22px) rotate(3deg) scale(1.05)}}
+
 .ring{position:absolute;border-radius:50%;border:2px solid #ec489933;animation:ringPulse 2s ease-out infinite}
 .ring:nth-child(2){width:160px;height:160px;animation-delay:.4s}
 .ring:nth-child(3){width:230px;height:230px;animation-delay:.8s}
@@ -45,61 +61,61 @@ body{background:var(--bg);font-family:'Poppins',sans-serif;color:#fff;cursor:def
 .cover-hint span{display:inline-block;animation:updown .8s ease-in-out infinite alternate}
 @keyframes updown{to{transform:translateY(-5px)}}
 
-/* ══════════════════════════
-   MAIN SCENE  (3D flip card)
-══════════════════════════ */
+/* ── OPEN ENVELOPE ANIMATION ── */
+#envelope-open{
+  position:fixed;inset:0;z-index:99;display:none;align-items:center;justify-content:center;pointer-events:none;
+}
+#envelope-open.play{display:flex}
+.env-burst{
+  font-size:9rem;
+  animation:envBurst .8s cubic-bezier(.34,1.56,.64,1) forwards;
+  filter:drop-shadow(0 0 60px #ec4899);
+}
+@keyframes envBurst{
+  0%{transform:scale(1);opacity:1}
+  50%{transform:scale(1.5) rotate(10deg);opacity:1}
+  100%{transform:scale(0) rotate(-20deg);opacity:0}
+}
+
+/* ── SCENE ── */
 #scene{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;perspective:1400px;overflow-y:auto}
 #card-wrapper{width:min(480px,94vw);transform-style:preserve-3d;animation:cardEntry .9s cubic-bezier(.34,1.56,.64,1) forwards;opacity:0;margin:auto}
 @keyframes cardEntry{from{opacity:0;transform:rotateY(-25deg) translateY(40px)}to{opacity:1;transform:rotateY(0) translateY(0)}}
 
 .card{background:linear-gradient(155deg,#1e0038 0%,#0d001e 55%,#180030 100%);border-radius:28px;border:1.5px solid #9333ea44;box-shadow:0 0 60px #9333ea33,0 0 120px #ec489918,inset 0 0 40px #9333ea0a;overflow:hidden;position:relative}
-
-/* shimmer overlay */
 .card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,#ffffff06 50%,transparent 60%);background-size:200% 200%;animation:shimmer 4s ease-in-out infinite;pointer-events:none;z-index:0}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
-/* rainbow top bar */
 .top-bar{height:5px;background:linear-gradient(90deg,#7c3aed,#ec4899,#f472b6,#fbbf24,#34d399,#7c3aed);background-size:200%;animation:barFlow 3s linear infinite}
 @keyframes barFlow{to{background-position:200% 0}}
-
 .inner{padding:1.8rem 1.6rem 1.6rem;position:relative;z-index:1}
 
-/* ── PHOTO STRIP ── */
+/* PHOTO STRIP */
 .photo-strip{display:flex;gap:.65rem;justify-content:center;margin-bottom:1.6rem}
 .pf{flex:1;max-width:138px;position:relative;border-radius:18px;overflow:hidden;cursor:pointer;box-shadow:0 8px 28px #00000066;transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .35s}
-.pf:hover{transform:scale(1.08) translateY(-6px);box-shadow:0 16px 48px #9333ea66}
-.pf:nth-child(1){transform:rotate(-2.5deg);animation:tiltPop 6s ease-in-out infinite}
-.pf:nth-child(1):hover{transform:rotate(-2.5deg) scale(1.08) translateY(-6px)}
-.pf:nth-child(2){transform:rotate(.5deg);animation:tiltPop2 7s ease-in-out infinite}
-.pf:nth-child(2):hover{transform:rotate(.5deg) scale(1.08) translateY(-6px)}
-.pf:nth-child(3){transform:rotate(2deg);animation:tiltPop 5.5s ease-in-out infinite .5s}
-.pf:nth-child(3):hover{transform:rotate(2deg) scale(1.08) translateY(-6px)}
-@keyframes tiltPop{0%,100%{box-shadow:0 8px 28px #00000066}50%{box-shadow:0 12px 36px #9333ea55}}
-@keyframes tiltPop2{0%,100%{box-shadow:0 8px 28px #00000066}50%{box-shadow:0 12px 36px #ec489955}}
-
+.pf:hover{transform:scale(1.08) translateY(-6px)!important;box-shadow:0 16px 48px #9333ea66}
+.pf:nth-child(1){transform:rotate(-2.5deg)}
+.pf:nth-child(2){transform:rotate(.5deg)}
+.pf:nth-child(3){transform:rotate(2deg)}
 .pf img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block}
 .pf .shade{position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,#0d001ebb 100%)}
 .pf .plabel{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);font-size:.6rem;color:#f9a8d4;letter-spacing:.1em;white-space:nowrap;background:#00000066;padding:.15rem .55rem;border-radius:999px;backdrop-filter:blur(4px)}
 .pf .badge{position:absolute;top:-6px;right:-6px;font-size:1.1rem;animation:hb .85s ease-in-out infinite alternate;filter:drop-shadow(0 0 6px #ec4899)}
 @keyframes hb{from{transform:scale(1)}to{transform:scale(1.35)}}
 
-/* ── HEADER ── */
 .header{text-align:center;margin-bottom:1.2rem}
 .header h1{font-family:'Playfair Display',serif;font-size:2.4rem;background:linear-gradient(90deg,#f9a8d4,#c084fc,#fbbf24,#fb7185);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.15;animation:hueShift 5s ease-in-out infinite alternate}
 @keyframes hueShift{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(30deg)}}
 .header .tagline{font-family:'Playfair Display',serif;font-style:italic;color:#c084fc99;font-size:.85rem;letter-spacing:.1em;margin-top:.25rem}
 
-/* DIVIDER */
 .div{display:flex;align-items:center;gap:.6rem;margin:.9rem 0}
 .div::before,.div::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,#9333ea44,transparent)}
 
-/* ── MESSAGE ── */
 .msg{background:linear-gradient(135deg,#ffffff08,#ffffff03);border:1px solid #9333ea22;border-radius:18px;padding:1.2rem 1.3rem;margin-bottom:1.4rem;position:relative;overflow:hidden}
 .msg::before{content:'❝';position:absolute;top:-4px;left:10px;font-size:3rem;color:#9333ea22;font-family:serif;line-height:1}
 .msg p{color:#ead6ff;font-size:.88rem;line-height:2;font-weight:300;padding-left:.8rem}
 .msg p em{color:#f9a8d4;font-style:normal;font-weight:600}
 
-/* ── CANDLE SECTION ── */
 .candle-row{display:flex;align-items:center;justify-content:center;gap:.5rem;margin-bottom:.8rem}
 .candle{font-size:1.6rem;animation:cFlicker var(--cf) ease-in-out infinite alternate;filter:drop-shadow(0 0 6px #fbbf24aa)}
 @keyframes cFlicker{from{transform:scaleY(1) rotate(-1deg)}to{transform:scaleY(.9) rotate(1deg)}}
@@ -116,7 +132,6 @@ body{background:var(--bg);font-family:'Poppins',sans-serif;color:#fff;cursor:def
 #wish-box.show{opacity:1;transform:none}
 #wish-box p{font-family:'Playfair Display',serif;font-style:italic;color:#fbbf24;font-size:.92rem;line-height:1.6}
 
-/* ── PHOTO REEL (horizontal scroll) ── */
 .reel-title{text-align:center;font-family:'Playfair Display',serif;font-size:1rem;color:#c084fc;letter-spacing:.12em;margin:.4rem 0 .8rem;font-style:italic}
 .reel{display:flex;gap:.7rem;overflow-x:auto;padding:.4rem .2rem 1rem;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .reel::-webkit-scrollbar{display:none}
@@ -126,12 +141,10 @@ body{background:var(--bg);font-family:'Poppins',sans-serif;color:#fff;cursor:def
 .reel-card .reel-shade{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,#0d001ecc 100%)}
 .reel-card .reel-cap{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.65rem;color:#f9a8d4;letter-spacing:.1em;background:#00000055;padding:.15rem .6rem;border-radius:999px;backdrop-filter:blur(4px)}
 
-/* ── FOOTER ── */
 .footer{text-align:center;padding:.8rem 0 .2rem;border-top:1px solid #9333ea1a;margin-top:.5rem}
 .footer p{color:#6d28d944;font-size:.72rem;letter-spacing:.1em}
 .footer span{color:#ec4899;animation:hb .8s ease-in-out infinite alternate;display:inline-block}
 
-/* ── LIGHTBOX ── */
 #lb{display:none;position:fixed;inset:0;z-index:300;background:#000000dd;align-items:center;justify-content:center;backdrop-filter:blur(12px);cursor:pointer}
 #lb.open{display:flex}
 #lb .lb-img-wrap{position:relative;animation:popIn .45s cubic-bezier(.34,1.56,.64,1)}
@@ -139,17 +152,16 @@ body{background:var(--bg);font-family:'Poppins',sans-serif;color:#fff;cursor:def
 #lb img{max-width:min(420px,88vw);max-height:82vh;border-radius:20px;border:2px solid #9333ea55;box-shadow:0 0 80px #9333ea55,0 0 160px #ec489933;display:block}
 #lb-close{position:absolute;top:-14px;right:-14px;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#9333ea,#ec4899);display:flex;align-items:center;justify-content:center;font-size:1.1rem;cursor:pointer;box-shadow:0 4px 16px #0007}
 
-/* ── BURST EMOJI ── */
 .burst{position:fixed;pointer-events:none;z-index:400;font-size:2rem;animation:burstAnim .7s forwards}
 @keyframes burstAnim{0%{opacity:1;transform:scale(.4)}60%{opacity:1;transform:scale(1.5)}100%{opacity:0;transform:scale(1.2) translateY(-35px)}}
 
-/* ── MUSIC FAB ── */
-#music-fab{position:fixed;bottom:1.4rem;right:1.4rem;z-index:50;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#9333ea,#ec4899);border:none;cursor:pointer;font-size:1.3rem;box-shadow:0 4px 20px #ec489966;display:none;align-items:center;justify-content:center;transition:transform .25s;animation:fabPop .5s .3s cubic-bezier(.34,1.56,.64,1) both}
+#music-fab{position:fixed;bottom:1.4rem;right:1.4rem;z-index:50;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#9333ea,#ec4899);border:none;cursor:pointer;font-size:1.3rem;box-shadow:0 4px 20px #ec489966;display:none;align-items:center;justify-content:center;transition:transform .25s}
 #music-fab:hover{transform:scale(1.15)}
-@keyframes fabPop{from{transform:scale(0)}to{transform:scale(1)}}
-#music-fab.active{animation:fabPop .5s cubic-bezier(.34,1.56,.64,1) both,spin 8s linear infinite}
-@keyframes spin{to{box-shadow:0 0 0 4px #9333ea44,0 0 20px #ec489966}}
 #music-fab.on{background:linear-gradient(135deg,#ec4899,#fbbf24)}
+
+/* CONFETTI class (added by JS) */
+.confetti{position:fixed;width:9px;height:13px;top:-20px;border-radius:2px;animation:fall linear forwards;z-index:5;pointer-events:none}
+@keyframes fall{to{transform:translateY(110vh) rotate(800deg);opacity:0}}
 </style>
 </head>
 <body>
@@ -157,9 +169,15 @@ body{background:var(--bg);font-family:'Poppins',sans-serif;color:#fff;cursor:def
 <div id="stars"></div>
 <div id="petals-layer"></div>
 <canvas id="fw"></canvas>
+<div id="heart-rain-layer"></div>
 
-<!-- ════ COVER ════ -->
-<div id="cover" onclick="revealCard()">
+<!-- ENVELOPE BURST -->
+<div id="envelope-open">
+  <div class="env-burst">💌</div>
+</div>
+
+<!-- COVER -->
+<div id="cover" onclick="openEnvelope()">
   <div class="env-wrap">
     <div class="ring"></div><div class="ring"></div><div class="ring"></div>
     <div class="env">💌</div>
@@ -168,25 +186,18 @@ body{background:var(--bg);font-family:'Poppins',sans-serif;color:#fff;cursor:def
   <p class="cover-hint"><span>✨</span> Tap to open your surprise <span>✨</span></p>
 </div>
 
-<!-- ════ MAIN SCENE ════ -->
+<!-- MAIN SCENE -->
 <div id="scene" style="display:none">
   <div id="card-wrapper">
     <div class="card">
       <div class="top-bar"></div>
       <div class="inner">
-
-        <!-- PHOTO STRIP -->
         <div class="photo-strip" id="strip"></div>
-
-        <!-- HEADER -->
         <div class="header">
           <h1>Happy Birthday<br>Ananya 🎂</h1>
           <p class="tagline">— the one who makes every room glow —</p>
         </div>
-
         <div class="div"><span>🌸</span></div>
-
-        <!-- MESSAGE -->
         <div class="msg">
           <p>
             Dear <em>Ananya</em>,<br>
@@ -200,26 +211,17 @@ body{background:var(--bg);font-family:'Poppins',sans-serif;color:#fff;cursor:def
             <em>With all my heart — happy birthday!</em> 💖
           </p>
         </div>
-
-        <!-- CANDLES -->
         <div class="candle-row" id="candles"></div>
         <div style="text-align:center"><span id="cake-main">🎂</span></div>
         <button id="blow-btn" onclick="blowCandles()"><span>🕯️ Blow the Candles!</span></button>
         <div id="wish-box"><p id="wish-text"></p></div>
-
         <div class="div" style="margin-top:1.2rem"><span>📸</span></div>
-
-        <!-- PHOTO REEL -->
-        <p class="reel-title">— Moments with Ananya —</p>
-        <div class="reel" id="reel"></div>
-
       </div>
       <div class="footer"><p>Made with <span>💖</span> just for you, Ananya</p></div>
     </div>
   </div>
 </div>
 
-<!-- LIGHTBOX -->
 <div id="lb" onclick="closeLB()">
   <div class="lb-img-wrap">
     <img id="lb-img" src="" alt=""/>
@@ -227,205 +229,170 @@ body{background:var(--bg);font-family:'Poppins',sans-serif;color:#fff;cursor:def
   </div>
 </div>
 
-<!-- MUSIC FAB -->
 <button id="music-fab" onclick="toggleMusic()" title="Toggle Music">🎵</button>
 
 <script>
-/* ════════════════════════════
-   PHOTOS — Replace these URLs
-════════════════════════════ */
+/* ══ PHOTOS ══ */
 const PHOTOS = [
-  { src: "ananya3.jpg", label: "🌊 Lake Vibes",  badge: "💖", reel: "She glows anywhere 🌊" },
-  { src: "ananya2.jpg", label: "🌼 Sunshine",    badge: "🌸", reel: "Sunshine in every field 🌼" },
-  { src: "anaya.jpg", label: "🌺 Graceful",    badge: "✨", reel: "Graceful as always 🌺"   },
+  { src:"ananya3.jpg", label:"🌊 Lake Vibes",  badge:"💖", reel:"She glows anywhere 🌊" },
+  { src:"ananya2.jpg", label:"🌼 Sunshine",    badge:"🌸", reel:"Sunshine in every field 🌼" },
+  { src:"anaya.jpg",  label:"🌺 Graceful",    badge:"✨", reel:"Graceful as always 🌺" },
 ];
 
-/* ════════════════════════════
-   STARS
-════════════════════════════ */
-const sc = document.getElementById('stars');
+/* ══ STARS ══ */
+const sc=document.getElementById('stars');
 for(let i=0;i<160;i++){
-  const s=document.createElement('div'); s.className='star';
+  const s=document.createElement('div');s.className='star';
   const z=Math.random()*2.4+.3;
   s.style.cssText=`width:${z}px;height:${z}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(Math.random()*3+1.4).toFixed(1)}s;animation-delay:${(Math.random()*5).toFixed(1)}s`;
   sc.appendChild(s);
 }
 
-/* ════════════════════════════
-   PETALS
-════════════════════════════ */
-const pl = document.getElementById('petals-layer');
-const petalSet = ['🌸','🌺','🌼','💮','🪷','🌷'];
-for(let i=0;i<18;i++){
-  const p=document.createElement('div'); p.className='petal';
-  p.textContent=petalSet[i%petalSet.length];
-  p.style.cssText=`left:${Math.random()*100}%;--pd:${(Math.random()*7+8).toFixed(1)}s;--delay:${(Math.random()*9).toFixed(1)}s;font-size:${(.75+Math.random()*.8).toFixed(2)}rem`;
-  pl.appendChild(p);
+/* ══ PETALS ══ */
+const pl=document.getElementById('petals-layer');
+['🌸','🌺','🌼','💮','🪷','🌷'].forEach((e,i)=>{
+  for(let j=0;j<3;j++){
+    const p=document.createElement('div');p.className='petal';p.textContent=e;
+    p.style.cssText=`left:${Math.random()*100}%;--pd:${(Math.random()*7+8).toFixed(1)}s;--delay:${(Math.random()*12).toFixed(1)}s;font-size:${(.75+Math.random()*.8).toFixed(2)}rem`;
+    pl.appendChild(p);
+  }
+});
+
+/* ══ HEART RAIN ══ */
+const heartLayer=document.getElementById('heart-rain-layer');
+const heartEmojis=['❤️','💖','💗','💓','💕','💞','🩷','💝'];
+let heartRainActive=false, heartRainInterval=null;
+
+function createHeart(){
+  const wrapper=document.getElementById('card-wrapper');
+  if(!wrapper) return;
+  const h=document.createElement('div');
+  h.className='heart-drop';
+  h.textContent=heartEmojis[Math.floor(Math.random()*heartEmojis.length)];
+  const dur=(2.5+Math.random()*2).toFixed(1);
+  const delay=(Math.random()*.5).toFixed(2);
+  const rot=(-25+Math.random()*50).toFixed(1);
+  h.style.cssText=`left:${Math.random()*100}%;--hd:${dur}s;--hdelay:${delay}s;--rot:${rot}deg;font-size:${(.9+Math.random()*1).toFixed(2)}rem`;
+  wrapper.appendChild(h);
+  setTimeout(()=>h.remove(),(parseFloat(dur)+parseFloat(delay)+0.5)*1000);
 }
 
-/* ════════════════════════════
-   FIREWORKS
-════════════════════════════ */
+function startHeartRain(){
+  if(heartRainActive) return;
+  heartRainActive=true;
+  // initial burst of 25 hearts
+  for(let i=0;i<25;i++) setTimeout(createHeart, i*60);
+  // then steady drizzle — only 1 every 400ms, very light
+  heartRainInterval=setInterval(createHeart, 400);
+  // stop after 5 seconds, hearts only fall once
+  setTimeout(()=>{ clearInterval(heartRainInterval); heartRainActive=false; }, 5000);
+}
+
+/* ══ FIREWORKS ══ */
 const fwC=document.getElementById('fw'),ctx=fwC.getContext('2d');
-fwC.width=window.innerWidth; fwC.height=window.innerHeight;
+fwC.width=window.innerWidth;fwC.height=window.innerHeight;
 window.addEventListener('resize',()=>{fwC.width=window.innerWidth;fwC.height=window.innerHeight;});
 const COLS=['#f9a8d4','#c084fc','#fbbf24','#fb7185','#a78bfa','#fff','#f472b6','#34d399'];
 let parts=[],fwOn=false;
-function FP(x,y){
-  this.x=x; this.y=y;
-  const a=Math.random()*Math.PI*2, sp=Math.random()*6+1.5;
-  this.vx=Math.cos(a)*sp; this.vy=Math.sin(a)*sp;
-  this.alpha=1; this.col=COLS[Math.floor(Math.random()*COLS.length)]; this.r=Math.random()*3.5+1;
-}
+function FP(x,y){this.x=x;this.y=y;const a=Math.random()*Math.PI*2,sp=Math.random()*6+1.5;this.vx=Math.cos(a)*sp;this.vy=Math.sin(a)*sp;this.alpha=1;this.col=COLS[Math.floor(Math.random()*COLS.length)];this.r=Math.random()*3.5+1;}
 function burst(x,y,n=70){for(let i=0;i<n;i++)parts.push(new FP(x,y));}
-function fwTick(){
-  ctx.clearRect(0,0,fwC.width,fwC.height);
-  parts=parts.filter(p=>p.alpha>.015);
-  parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.08;p.alpha-=.016;ctx.globalAlpha=p.alpha;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.col;ctx.fill();});
-  ctx.globalAlpha=1;
-  if(fwOn||parts.length) requestAnimationFrame(fwTick);
-}
-function launchFW(n=10){
-  fwOn=true; let c=0;
-  const id=setInterval(()=>{burst(Math.random()*fwC.width,Math.random()*fwC.height*.55);if(++c>=n){clearInterval(id);fwOn=false;}},300);
-  fwTick();
-}
+function fwTick(){ctx.clearRect(0,0,fwC.width,fwC.height);parts=parts.filter(p=>p.alpha>.015);parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.08;p.alpha-=.016;ctx.globalAlpha=p.alpha;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.col;ctx.fill();});ctx.globalAlpha=1;if(fwOn||parts.length)requestAnimationFrame(fwTick);}
+function launchFW(n=10){fwOn=true;let c=0;const id=setInterval(()=>{burst(Math.random()*fwC.width,Math.random()*fwC.height*.55);if(++c>=n){clearInterval(id);fwOn=false;}},300);fwTick();}
 
-/* ════════════════════════════
-   CONFETTI
-════════════════════════════ */
+/* ══ CONFETTI ══ */
 function confetti(n=70){
   for(let i=0;i<n;i++) setTimeout(()=>{
-    const c=document.createElement('div'); c.className='confetti';
+    const c=document.createElement('div');c.className='confetti';
     c.style.cssText=`left:${Math.random()*100}vw;background:${COLS[Math.floor(Math.random()*COLS.length)]};animation-duration:${(Math.random()*2.5+2.2).toFixed(1)}s;animation-delay:${(Math.random()*.6).toFixed(2)}s;transform:rotate(${Math.random()*360}deg)`;
-    document.body.appendChild(c); setTimeout(()=>c.remove(),6000);
-  }, i*28);
+    document.body.appendChild(c);setTimeout(()=>c.remove(),6000);
+  },i*28);
 }
 
-/* ════════════════════════════
-   BUILD PHOTO STRIP & REEL
-════════════════════════════ */
-const strip = document.getElementById('strip');
-const reel  = document.getElementById('reel');
-PHOTOS.forEach((ph,i)=>{
-  // strip
-  const pf=document.createElement('div'); pf.className='pf';
+/* ══ OPEN ENVELOPE ══ */
+function openEnvelope(){
+  const cover=document.getElementById('cover');
+  const envBurstEl=document.getElementById('envelope-open');
+
+  // 1. hide cover with clip-path
+  cover.classList.add('hide');
+
+  // 2. show burst animation
+  envBurstEl.classList.add('play');
+  setTimeout(()=>envBurstEl.classList.remove('play'),900);
+
+  // 3. after short delay, show card + start heart rain
+  setTimeout(()=>{
+    document.getElementById('scene').style.display='flex';
+    document.getElementById('music-fab').style.display='flex';
+    confetti(100);
+    launchFW(12);
+    startHeartRain();   // ❤️ hearts rain down!
+  },400);
+}
+
+/* ══ PHOTO STRIP & REEL ══ */
+const strip=document.getElementById('strip'), reel=document.getElementById('reel');
+PHOTOS.forEach((ph)=>{
+  const pf=document.createElement('div');pf.className='pf';
   pf.innerHTML=`<img src="${ph.src}" alt="Ananya" onerror="this.parentElement.style.background='#2a0050';this.style.display='none'"/>
-    <div class="shade"></div><div class="plabel">${ph.label}</div>
-    <div class="badge">${ph.badge}</div>`;
-  pf.onclick=(e)=>{emojiBurst(e);openLB(ph.src);}
+    <div class="shade"></div><div class="plabel">${ph.label}</div><div class="badge">${ph.badge}</div>`;
+  pf.onclick=(e)=>{emojiBurst(e);openLB(ph.src);};
   strip.appendChild(pf);
 
-  // reel
-  const rc=document.createElement('div'); rc.className='reel-card';
+  const rc=document.createElement('div');rc.className='reel-card';
   rc.innerHTML=`<img src="${ph.src}" alt="Ananya" onerror="this.parentElement.style.background='#2a0050';this.style.display='none'"/>
     <div class="reel-shade"></div><div class="reel-cap">${ph.reel}</div>`;
-  rc.onclick=(e)=>{emojiBurst(e);openLB(ph.src);}
+  rc.onclick=(e)=>{emojiBurst(e);openLB(ph.src);};
   reel.appendChild(rc);
 });
 
-/* ════════════════════════════
-   CANDLES
-════════════════════════════ */
-const candlesCont = document.getElementById('candles');
-['🕯️','🕯️','🎂','🕯️','🕯️'].forEach((c,i)=>{
-  const el=document.createElement('span'); el.className='candle';
-  el.textContent=c; el.style.cssText=`--cf:${(.7+Math.random()*.6).toFixed(2)}s;animation-delay:${(Math.random()*.3).toFixed(2)}s`;
-  candlesCont.appendChild(el);
+/* ══ CANDLES ══ */
+['🕯️','🕯️','🎂','🕯️','🕯️'].forEach(c=>{
+  const el=document.createElement('span');el.className='candle';el.textContent=c;
+  el.style.cssText=`--cf:${(.7+Math.random()*.6).toFixed(2)}s;animation-delay:${(Math.random()*.3).toFixed(2)}s`;
+  document.getElementById('candles').appendChild(el);
 });
 
-/* ════════════════════════════
-   COVER → CARD
-════════════════════════════ */
-function revealCard(){
-  document.getElementById('cover').classList.add('hide');
-  const scene=document.getElementById('scene');
-  scene.style.display='flex';
-  setTimeout(()=>{confetti(100);launchFW(12);},200);
-  document.getElementById('music-fab').style.display='flex';
-}
-
-/* ════════════════════════════
-   BLOW CANDLES
-════════════════════════════ */
-const wishes=[
-  "🌸 May every single day feel as beautiful as you are, Ananya!",
-  "💫 Wishing you a year of love, magic & endless sunshine!",
-  "🌙 The world is so much better with you in it — always!",
-  "🌼 You are someone's reason to smile. Today, mine. 💖",
-  "🎀 Here's to a year of dreams that come true, just for you!",
-  "✨ You deserve all the stars in the sky and more, Ananya!",
-];
-let wi=0, blownOnce=false;
+/* ══ BLOW CANDLES ══ */
+const wishes=["🌸 May every single day feel as beautiful as you are, Ananya!","💫 Wishing you a year of love, magic & endless sunshine!","🌙 The world is so much better with you in it — always!","🌼 You are someone's reason to smile. Today, mine. 💖","🎀 Here's to a year of dreams that come true, just for you!","✨ You deserve all the stars in the sky and more, Ananya!"];
+let wi=0,blownOnce=false;
 function blowCandles(){
-  const cake=document.getElementById('cake-main'), wb=document.getElementById('wish-box'), wt=document.getElementById('wish-text');
-  cake.textContent='✨'; setTimeout(()=>cake.textContent=blownOnce?'🎊':'🎉',350); setTimeout(()=>cake.textContent='🎂',1700);
+  const cake=document.getElementById('cake-main'),wb=document.getElementById('wish-box'),wt=document.getElementById('wish-text');
+  cake.textContent='✨';setTimeout(()=>cake.textContent=blownOnce?'🎊':'🎉',350);setTimeout(()=>cake.textContent='🎂',1700);
   blownOnce=true;
-  wb.classList.remove('show'); void wb.offsetWidth;
-  wt.textContent=wishes[wi%wishes.length]; wi++;
+  wb.classList.remove('show');void wb.offsetWidth;
+  wt.textContent=wishes[wi%wishes.length];wi++;
   wb.classList.add('show');
   confetti(35);
-  burst(fwC.width/2, fwC.height*.65, 40); fwTick();
+  burst(fwC.width/2,fwC.height*.65,40);fwTick();
+  // extra heart burst on candle blow
+  for(let i=0;i<12;i++) setTimeout(createHeart,i*60);
 }
 
-/* ════════════════════════════
-   LIGHTBOX
-════════════════════════════ */
-function openLB(src){
-  document.getElementById('lb-img').src=src;
-  document.getElementById('lb').classList.add('open');
-}
-function closeLB(){ document.getElementById('lb').classList.remove('open'); }
+/* ══ LIGHTBOX ══ */
+function openLB(src){document.getElementById('lb-img').src=src;document.getElementById('lb').classList.add('open');}
+function closeLB(){document.getElementById('lb').classList.remove('open');}
 
-/* ════════════════════════════
-   EMOJI BURST ON CLICK
-════════════════════════════ */
-const burstEmojis=['💖','✨','🌸','🌟','🎉','💫','🌺'];
+/* ══ EMOJI BURST ══ */
+const burstEmojis=['💖','✨','🌸','🌟','🎉','💫','🌺','❤️'];
 function emojiBurst(e){
-  const el=document.createElement('div'); el.className='burst';
+  const el=document.createElement('div');el.className='burst';
   el.textContent=burstEmojis[Math.floor(Math.random()*burstEmojis.length)];
   el.style.cssText=`left:${e.clientX-18}px;top:${e.clientY-18}px`;
-  document.body.appendChild(el); setTimeout(()=>el.remove(),750);
+  document.body.appendChild(el);setTimeout(()=>el.remove(),750);
 }
-document.addEventListener('click',e=>{ if(!e.target.closest('#cover')&&!e.target.closest('.pf')&&!e.target.closest('.reel-card')&&!e.target.closest('#blow-btn')&&!e.target.closest('#lb')&&!e.target.closest('#music-fab')) emojiBurst(e); });
+document.addEventListener('click',e=>{
+  if(!e.target.closest('#cover')&&!e.target.closest('.pf')&&!e.target.closest('.reel-card')&&!e.target.closest('#blow-btn')&&!e.target.closest('#lb')&&!e.target.closest('#music-fab')) emojiBurst(e);
+});
 
-/* ════════════════════════════
-   MUSIC — Happy Birthday
-════════════════════════════ */
-let audioCtx=null, musicPlaying=false, musicNodes=[], musicTimeout=null;
+/* ══ MUSIC ══ */
+let audioCtx=null,musicPlaying=false,musicNodes=[],musicTimeout=null;
 const N={C4:261.63,D4:293.66,E4:329.63,F4:349.23,G4:392,A4:440,Bb4:466.16,C5:523.25,D5:587.33,F5:698.46};
-const song=[
-  [N.C4,.5],[N.C4,.5],[N.D4,1],[N.C4,1],[N.F4,1],[N.E4,2],
-  [N.C4,.5],[N.C4,.5],[N.D4,1],[N.C4,1],[N.G4,1],[N.F4,2],
-  [N.C4,.5],[N.C4,.5],[N.C5,1],[N.A4,1],[N.F4,1],[N.E4,1],[N.D4,2],
-  [N.Bb4,.5],[N.Bb4,.5],[N.A4,1],[N.F4,1],[N.G4,1],[N.F4,3]
-];
-function playNote(freq,dur,time){
-  const o=audioCtx.createOscillator(),g=audioCtx.createGain();
-  o.connect(g); g.connect(audioCtx.destination);
-  o.type='sine'; o.frequency.value=freq;
-  g.gain.setValueAtTime(0,time);
-  g.gain.linearRampToValueAtTime(.22,time+.05);
-  g.gain.setValueAtTime(.22,time+dur-.08);
-  g.gain.linearRampToValueAtTime(0,time+dur);
-  o.start(time); o.stop(time+dur);
-  musicNodes.push(o);
-}
-function playSong(){
-  if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-  musicNodes=[];
-  const bpm=100, beat=60/bpm;
-  let t=audioCtx.currentTime+.05;
-  song.forEach(([f,d])=>{ playNote(f,d*beat*.92,t); t+=d*beat; });
-  musicTimeout=setTimeout(()=>{ if(musicPlaying) playSong(); }, (t-audioCtx.currentTime)*1000+200);
-}
-function stopMusic(){ musicNodes.forEach(n=>{try{n.stop();}catch(e){}}); clearTimeout(musicTimeout); }
-function toggleMusic(){
-  const btn=document.getElementById('music-fab');
-  musicPlaying=!musicPlaying;
-  if(musicPlaying){ btn.textContent='🎶'; btn.classList.add('on'); playSong(); }
-  else{ btn.textContent='🎵'; btn.classList.remove('on'); stopMusic(); }
-}
+const song=[[N.C4,.5],[N.C4,.5],[N.D4,1],[N.C4,1],[N.F4,1],[N.E4,2],[N.C4,.5],[N.C4,.5],[N.D4,1],[N.C4,1],[N.G4,1],[N.F4,2],[N.C4,.5],[N.C4,.5],[N.C5,1],[N.A4,1],[N.F4,1],[N.E4,1],[N.D4,2],[N.Bb4,.5],[N.Bb4,.5],[N.A4,1],[N.F4,1],[N.G4,1],[N.F4,3]];
+function playNote(freq,dur,time){const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);o.type='sine';o.frequency.value=freq;g.gain.setValueAtTime(0,time);g.gain.linearRampToValueAtTime(.22,time+.05);g.gain.setValueAtTime(.22,time+dur-.08);g.gain.linearRampToValueAtTime(0,time+dur);o.start(time);o.stop(time+dur);musicNodes.push(o);}
+function playSong(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();musicNodes=[];const bpm=100,beat=60/bpm;let t=audioCtx.currentTime+.05;song.forEach(([f,d])=>{playNote(f,d*beat*.92,t);t+=d*beat;});musicTimeout=setTimeout(()=>{if(musicPlaying)playSong();},(t-audioCtx.currentTime)*1000+200);}
+function stopMusic(){musicNodes.forEach(n=>{try{n.stop();}catch(e){}});clearTimeout(musicTimeout);}
+function toggleMusic(){const btn=document.getElementById('music-fab');musicPlaying=!musicPlaying;if(musicPlaying){btn.textContent='🎶';btn.classList.add('on');playSong();}else{btn.textContent='🎵';btn.classList.remove('on');stopMusic();}}
 </script>
 </body>
 </html>
